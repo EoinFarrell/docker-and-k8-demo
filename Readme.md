@@ -15,14 +15,40 @@ Agenda:
 
 ### Running an app
 
+https://docs.docker.com/engine/images/architecture.svg
+
+`docker build . --tag go-app:latest`
+`docker images`
 `docker run --name go-app go-app:latest`
 `docker ps`
 `docker ps --all`
 `docker rm go-app`
 `docker run --name go-app -d -p 8080:8080 go-app:latest`
+`curl localhost:8080/ping`
 `docker stop go-app && docker rm go-app`
 
-`docker build . --tag go-app:latest`
+`git checkout eoinfarrell/remove-hardcoding`
+`git rebase main`
+`git diff main..eoinfarrell/remove-hardcoding`
+`docker build . --tag go-app:eoinfarrell/remove-hardcoding`
+`docker run --name go-app -d -p 8080:8080 go-app:eoinfarrell-remove-hardcoding`
+`curl localhost:8080/ping`
+`docker stop go-app && docker rm go-app`
+
+Display running both containers at the same time on different ports
+`docker run --name go-app -d -p 8080:8080 go-app:latest`
+`docker run --name go-app -d -p 8081:8080 go-app:eoinfarrell-remove-hardcoding`
+
+`curl localhost:8080/ping`
+`curl localhost:8081/ping`
+
+
+Discuss docker push
+`docker push docker/getting-started`
+
+`docker stop go-app && docker rm go-app`
+
+
 
 ### Docker Registry
 
