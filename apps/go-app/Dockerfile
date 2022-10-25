@@ -1,4 +1,4 @@
-FROM golang:1.18
+FROM golang:1.18 AS build
 
 WORKDIR /app
 
@@ -9,7 +9,11 @@ RUN go mod download
 ADD . /app
 
 RUN go build -o go-app ./main.go
+# RUN go build --ldflags '-linkmode external -extldflags "-static"' -o go-app ./main.go
 
-EXPOSE 8080
+# FROM alpine:latest
+# COPY --from=build /app/go-app .
 
-ENTRYPOINT [ "/app/go-app" ]
+# EXPOSE 8080
+
+# ENTRYPOINT [ "./go-app" ]
