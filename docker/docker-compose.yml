@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  go-app:
+    build: ../apps/go-app
+    ports:
+      - 8080:8080
+    networks:
+      - db-network
+    depends_on:
+      - mysql
+  java-app:
+    build:
+      context: ../apps/java-app
+      dockerfile: Dockerfile
+      args:
+        message: Docker-Compose
+    ports:
+      - 8090:8090
+  nginx:
+    image: nginx
+    volumes:
+      - /home/feoin/Code/nginx:/usr/share/nginx/html
+    ports:
+      - 8091:80
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - /tmp/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: testDB
+    ports:
+      - 3306:3306
+    networks:
+      - db-network
+
+networks:
+  db-network: {}
